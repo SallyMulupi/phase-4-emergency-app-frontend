@@ -1,4 +1,11 @@
-    .report-container {
-    display: flex;
-    justify-content: space-around;
-    height: 20vh;
+                    .report-container {
+                display: flex;
+                justify-content: space-around;
+                height: 20vh;
+                .table {
+                    font-family: arial, sans-serif;
+                    border-collapse: collapse;
+                    width: 90%;
+                    margin-bottom: 2rem;
+                    padding: 1rem;
+                    word-wrap: break-word;
