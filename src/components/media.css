@@ -1,0 +1,14 @@
+    @media only screen and (max-width: 390px) {
+    .register-container>form {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 10px;
+        border: 1px solid grey;
+        box-shadow: 10px 10px 40px grey;
+    }
+    .reportscontainer {
+        width: 10%;
+    }
