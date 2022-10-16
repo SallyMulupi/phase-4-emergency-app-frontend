@@ -34,10 +34,9 @@ const Login = () => {
       email: submittedData.email,
       password: submittedData.password,
     };
-    // fetch("http://localhost:9292/userlogin")
-
+    
     // console.log(submittedData);
-    fetch(`${Url}/userlogin`, {
+    fetch(`https://localhost:3000/userlogin`, {
       method: "POST",
       headers: {
         "content-Type": "application/json",
