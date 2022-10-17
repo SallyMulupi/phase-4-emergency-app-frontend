@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import Home from "./components/Home";
 import { Route, Routes } from "react-router-dom";
 import Register from "./components/Register";
-import Login from ".src/components/Login"
+import Login from "./components/login"
 import About from "./components/About";
 import NewReportForm from "./components/NewReportForm";
-const url ="https://emergencybackend.herokuapp.com"
+//const url ="https://emergencybackend.herokuapp.com"
 function App({params}) {
   // const [isDarkMode,setIsDarkMode]=useState(false)
   const [report, setReport] = useState([]);
+  const [user, setUser] = useState(null);
   // this will be used for the Dark Mode Toggle feature
   // function handleButton(){
   //   setIsDarkMode((isDarkMode)=> !isDarkMode)
@@ -17,9 +18,17 @@ function App({params}) {
   // const appClass = isDarkMode ? "App dark" : "App light"
 
   // fetching
+  useEffect(() => {
+    // auto-login
+    fetch("/me").then((r) => {
+      if (r.ok) {
+        r.json().then((user) => setUser(user));
+      }
+    });
+  }, []);
 
   useEffect(() => {
-    fetch(`https://localhost:3000/reports`)
+    fetch(`https://emergencybackend.herokuapp.com`)
       .then((res) => res.json())
       .then((data) => setReport(data));
   }, []);
@@ -35,23 +44,31 @@ function App({params}) {
 
   return (
     <div>
-      <Routes>
-        <Route
-          path="/:id/:username/:role"
-          element={
-            <Home
-            params={params}
-              report={report}
-              onAddReport={onAddReport}
-              onReportDelete={handleDeleteReport}
-            />
-          }
-        />
-        <Route path="/about" element={<About />} />
-        <Route path="/addreport" element={<NewReportForm  params={params} onAddReport={onAddReport} />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/" element={<Login />} />
-      </Routes>
+     <Navbar user={user} setUser={setUser} />
+      {user ? (
+        <>
+                {/* <Home user={user} /> */}
+        <Routes>
+        <Route path="/" element={<Home user={user} />} />
+        
+        </Routes>
+        </>
+      ) : (
+        <Routes>
+         
+          <Route path="/register" element={<Register setUser={setUser} />} />
+          
+          {/* <Route path="/doctors" element={<Doctors/>} /> */}
+        </Routes>
+      )}
+
+
+
+
+
+
+
+
     </div>
   );
 }

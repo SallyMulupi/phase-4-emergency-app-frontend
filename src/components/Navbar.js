@@ -11,7 +11,7 @@ const NavBar = () => {
   </div>
   <div className="links">
   <NavLink
-  to="/:id/:username/:role"
+  to="/"
   exact="true"
   >
     <li>Home</li>
@@ -25,8 +25,7 @@ const NavBar = () => {
   </NavLink>
 
   <NavLink
-  to="/"
-  exact="true"
+  
   >
    <li>Logout</li> 
   </NavLink>

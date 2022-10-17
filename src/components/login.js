@@ -36,7 +36,7 @@ const Login = () => {
     };
     
     // console.log(submittedData);
-    fetch(`https://localhost:3000/userlogin`, {
+    fetch("http://localhost:3000/signup", {
       method: "POST",
       headers: {
         "content-Type": "application/json",

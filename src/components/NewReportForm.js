@@ -8,7 +8,7 @@ const NewReportForm = ({ params, onAddReport, hidePopUp, handleupdateClick, id, 
             user_id: ""
 
         });
-        const URL="https://emergencybackend.herokuapp.com"
+        const URL="/report"
   const handleInputChange = (event) => {
     setInputData({
         ...inputData,[event.target.name]: event.target.value
@@ -36,7 +36,7 @@ const NewReportForm = ({ params, onAddReport, hidePopUp, handleupdateClick, id, 
         user_id:params.id
     }
 
-    fetch(`${URL}/postreports`,{
+    fetch("/report",{
         method: "POST",
         headers: {
             "content-Type": "application/json",

@@ -1,131 +1,135 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-const Url ="https://emergencybackend.herokuapp.com"
-
-
-const Register = () => {
-
-  const [userData, setUserData] = useState("");
-  const [submittedData, setSubmittedData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    role: "",
-  });
-
-  const handleFirstNameChange = (event) => {
-    setSubmittedData({
-      ...submittedData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleEmail = (event) => {
-    setSubmittedData({
-      ...submittedData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handlePassword = (event) => {
-    setSubmittedData({
-      ...submittedData,
-      [event.target.name]: event.target.value,
-    });
-  };
-  const handleSelectChange = (event) => {
-    setSubmittedData({
-      ...submittedData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
+const Register = ({ setUser }) => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [errors, setErrors] = useState([]);
+  console.log(errors);
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const inputData = {
-      username: submittedData.username,
-      email: submittedData.email,
-      password: submittedData.password,
-      role: submittedData.role,
+      username,
+      email,
+      password,
+      password_confirmation: passwordConfirmation,
     };
-
-    // console.log(submittedData);
-    fetch(`https://localhost:3000/userregistration`, {
+    fetch("/signup", {
       method: "POST",
       headers: {
-        "content-Type": "application/json",
+        "content-type": "application/json",
       },
       body: JSON.stringify(inputData),
-    })
-      .then((res) => res.json())
-      .then((data) => setUserData(data));
-      // window.location.reload();
-      // " successfully submitted"
-      setSubmittedData({
-        username: "",
-        email: "",
-        password: ""
-      })
+    }).then((response) => {
+      //  if(r.ok){
+      //   r.json()
+      //   .then((user)=> setUser(user))
+      //  }
+      if (response.ok) {
+        response.json().then((user) => setUser(user));
+      } else {
+        response.json().then((errorData) => setErrors(errorData.errors));
+      }
+    });
+    setUsername("");
+    setEmail("");
+    setPassword("");
+    setPasswordConfirmation("");
   };
-
-
-
+  {
+    errors.length > 0 && (
+      <ul style={{ color: "red"}}>
+        {errors.map((error) => (
+          <li  key={error}>{error}</li>
+        ))}
+      </ul>
+    );
+  }
   return (
-    <div className="register-container">
-
-      <form className="login" onSubmit={handleSubmit}>
-      <div className="loginHeader">
-        <h2>Register</h2>
-      </div>
-      <h2 className="error"> {userData.message}</h2>
-        <input
-          type="text"
-          required
-          name="username"
-          placeholder="Enter your name"
-          onChange={handleFirstNameChange}
-          value={submittedData.username}
-        />
-        <br />
-        <input
-          type="email"
-          required
-          name="email"
-          placeholder="Enter your Email"
-          onChange={handleEmail}
-          value={submittedData.email}
-        />
-        <br />
-        <input
-          type="password"
-          required
-          name="password"
-          placeholder="Enter your Password"
-          onChange={handlePassword}
-          value={submittedData.password}
-        />
-        <br />
-         <div className="selectoption">
-         <label>Select Role:</label>
-        <select
-          name="role"
-          required
-          value={submittedData.role}
-          onChange={handleSelectChange}
-        >
-          <option value="admin">Admin</option>
-          <option value="user">User</option>
-        </select>
-         </div>
-        <br />
-        <div className="registerlinks">
-        <button   type="submit">Submit</button>
-        <p className="lastp">Click <Link to="/"><span className="click-here">here</span></Link> to Login</p>
+    <div className="Reginto">
+      <div>
+        <div className="bg-grey-lighter min-h-screen flex flex-col">
+          <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+            <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+              <h1 className="mb-8 text-3xl text-center">Sign up</h1>
+              <form onSubmit={handleSubmit}>
+              <ul style={{ color: "red" }}>
+                  <li>{errors[1]}</li>
+                </ul>
+                <input
+                  type="text"
+                  className="block border border-grey-light w-full p-3 rounded mb-4"
+                  name="fullname"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Full Name"
+                />
+                <ul style={{ color: "red" }}>
+                  <li>{errors[2]}</li>
+                </ul>
+                <input
+                  type="text"
+                  className="block border border-grey-light w-full p-3 rounded mb-4"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email"
+                />
+                <ul style={{ color: "red" }}>
+                  <li>{errors[0]}</li>
+                </ul>
+                <input
+                  type="password"
+                  className="block border border-grey-light w-full p-3 rounded mb-4"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                />
+                <ul style={{ color: "red" }}>
+                  <li>{errors[3]}</li>
+                </ul>
+                <input
+                  type="password"
+                  className="block border border-grey-light w-full p-3 rounded mb-4"
+                  name="confirm_password"
+                  value={passwordConfirmation}
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
+                  placeholder="Confirm Password"
+                />
+                <button
+                  type="submit"
+                  className="w-full text-center py-3 rounded bg-green-900 text-white hover:bg-green-dark focus:outline-none my-1"
+                >
+                  Create Account
+                </button>
+              </form>
+              <div className="text-center text-sm text-grey-dark mt-4">
+                By signing up, you agree to the
+                <a
+                  className="no-underline border-b border-grey-dark text-grey-dark"
+                  href="#"
+                >
+                  Terms of Service
+                </a>{" "}
+                and
+                <a
+                  className="no-underline border-b border-grey-dark text-grey-dark"
+                  href="#"
+                >
+                  Privacy Policy
+                </a>
+              </div>
+              <div className="text-grey-dark mt-6">
+                Already have an account?
+                <Link to="/login">Login</Link>
+              </div>
+            </div>
+          </div>
         </div>
-        {/* <button><Link to="/login">Register</Link></button> */}
-      </form>
+      </div>
     </div>
   );
 };
-
 export default Register;
