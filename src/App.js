@@ -28,11 +28,11 @@ function App({params}) {
   }, []);
 
   useEffect(() => {
-    fetch(`https://emergencybackend.herokuapp.com`)
+    fetch("/reports")
       .then((res) => res.json())
       .then((data) => setReport(data));
   }, []);
-
+console.log(report)
   const onAddReport = (addNewReport) => {
     setReport([addNewReport, ...report]);
   };
@@ -44,23 +44,20 @@ function App({params}) {
 
   return (
     <div>
-     <Navbar user={user} setUser={setUser} />
-      {user ? (
-        <>
+     
                 {/* <Home user={user} /> */}
         <Routes>
-        <Route path="/" element={<Home user={user} />} />
+        <Route path="/" element={<Home user={user} report={report} />} />
         
         </Routes>
-        </>
-      ) : (
+        
         <Routes>
          
           <Route path="/register" element={<Register setUser={setUser} />} />
           
           {/* <Route path="/doctors" element={<Doctors/>} /> */}
         </Routes>
-      )}
+      
 
 
 

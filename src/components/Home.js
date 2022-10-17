@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import NavBar from "./Navbar";
 import NewReportForm from "./NewReportForm";
 import ReportList from "./ReportList";
@@ -9,9 +9,8 @@ const Home = ({ report, onAddReport ,onReportDelete}) => {
     // const [search, setSearch] = useState();
     const [btnText, setBtnText] = useState("report an emergency");
     const [hideButtom, setHideButton] = useState(false);
-  
-    let params = useParams();
-  
+
+  // console.log (report)
   
   
     const reportdisplay = report.map((repo) => (
@@ -19,7 +18,7 @@ const Home = ({ report, onAddReport ,onReportDelete}) => {
       id={repo.id} 
       repo={repo} 
       onReportDelete={onReportDelete}
-      params={params}
+     
       />
     ));
   
@@ -28,7 +27,7 @@ const Home = ({ report, onAddReport ,onReportDelete}) => {
         setIsHide("");
         setBtnText("report an emergency");
       } else {
-        setIsHide(<NewReportForm params={params} onAddReport={onAddReport} />);
+        setIsHide(<NewReportForm  onAddReport={onAddReport} />);
         setBtnText("close");
       }
     };
@@ -41,18 +40,17 @@ const Home = ({ report, onAddReport ,onReportDelete}) => {
       <div className="form_container">{true ? [isHide] : null}</div>
   
         <div className="displayuserName">
-          <h1 className="userdetails">Welcome {params.username}!!</h1>
+          <h1 className="userdetails">Welcome !!</h1>
         </div>
         <div className="formcont">
-      {
-        params.role === 'user' ? 
+      
+        
         <div style={{display: hideButtom}}>
         <button className="add-btn" onClick={togglePopUp} >
           {btnText}
         </button>
       </div>
-    : ' '  
-    }
+    
         </div>
   
           <div className="searchbar">
